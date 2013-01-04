@@ -1,5 +1,13 @@
-import datetime, os
+"""
+Provides class structure to cycletracks data.
 
+"""
+
+__author__ = "elizabeth sall"
+__email__  = "elizabeth@sfcta.org"
+__date__   = "2013-01-03"
+
+import datetime, os
 
 class CycletracksData(object):
     def __init__(self):
