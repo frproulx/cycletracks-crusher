@@ -10,6 +10,9 @@ __date__   = "2013-01-03"
 import datetime, os
 
 class CycletracksData(object):
+    
+    DEFAULT_DATETIME = datetime.datetime(1901, 1, 1, 12, 01)
+    
     def __init__(self):
         self.files_to_recs     = {}
         self.trips             = []
@@ -68,7 +71,10 @@ class CycletracksData(object):
         vAcc    = float(vAcc)
         speed   = float(speed)
         dformat = "%Y-%m-%d %H:%M:%S"
-        dt      = datetime.datetime.strptime(dt, dformat)
+        try:
+            dt      = datetime.datetime.strptime(dt, dformat)
+        except:
+            dt      = CycletracksData.DEFAULT_DATETIME
         
         if trip_id not in self.trips_by_id.keys():
             t = Trip(trip_id)
