@@ -1,11 +1,27 @@
-"""
-Provides class structure to cycletracks data.
-
-"""
-
+__copyright__ = "Copyright 2013 SFCTA"
 __author__ = "elizabeth sall"
 __email__  = "elizabeth@sfcta.org"
 __date__   = "2013-01-03"
+__license__   = """
+This file is part of CycleTracks Crusher
+CycleTracks Crusher is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+CycleTracks Crusher is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CycleTracks Crusher.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
+ABOUT = """
+Provides class structure to cycletracks data.
+"""
+
 
 import datetime, os
 
