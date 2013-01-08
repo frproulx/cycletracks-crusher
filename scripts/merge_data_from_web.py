@@ -22,11 +22,19 @@ from cycletracks import CycletracksData
 
 # Data which to import.  
 # You can add lots to the list and it will all get added together.  
-RAW_CYCLETRACKS_CSV_FILENAMES = ["testData/bikedata_test.csv"]
+RAW_CYCLETRACKS_CSV_FILENAMES = [r"Q:/Model Research/CycleTracks/Data/bikedata_test.csv"]
 
+RAW_CYCLETRACKS_CSV_FILENAMES = [r"Q:/Model Research/CycleTracks/Data/bikedata_1_5000.csv",
+r"Q:/Model Research/CycleTracks/Data/bikedata_5001_10000.csv",
+r"Q:/Model Research/CycleTracks/Data/bikedata_10001_15000.csv",
+r"Q:/Model Research/CycleTracks/Data/bikedata_15001_20000.csv",
+r"Q:/Model Research/CycleTracks/Data/bikedata_20001_25000.csv",
+r"Q:/Model Research/CycleTracks/Data/bikedata_30001_35541.csv"]
+
+TRIPS_ONLY = True
 # Specify where to write out the separate CSVs, and what their prefix should be
 SEPARATE_CSV_LOC    = r"Q:\Model Research\CycleTracks\Data"
-SEPARATE_CSV_PREFIX = "JAN032013"
+SEPARATE_CSV_PREFIX = "JAN07_2013"
 
 users_out = os.path.join(SEPARATE_CSV_LOC,SEPARATE_CSV_PREFIX+"_USERS.csv")
 trips_out = os.path.join(SEPARATE_CSV_LOC,SEPARATE_CSV_PREFIX+"_TRIPS.csv")
@@ -34,17 +42,18 @@ points_out= os.path.join(SEPARATE_CSV_LOC,SEPARATE_CSV_PREFIX+"_POINTS.csv")
 
 d = CycletracksData()
 for f in RAW_CYCLETRACKS_CSV_FILENAMES:
-    d.addDataFromFile(f)
+    d.addDataFromFile(f, tripsOnly= TRIPS_ONLY)
 
 #print out a few records to make sure data got added correctly
-for t in d.trips[2]:
+for t in d.trips[:2]:
     print t
-for u in d.users[2]:
+for u in d.users[:4]:
     print u
-for p in d.points[0:10]:
-    print p
+if TRIPS_ONLY:
+    for p in d.points[:10]:
+        print p
 
-(userfilename, tripsfilename, pointsfilename) = d.printToFile(SEPARATE_CSV_LOC, SEPARATE_CSV_PREFIX)
+(userfilename, tripsfilename, pointsfilename) = d.printToFile(SEPARATE_CSV_LOC, SEPARATE_CSV_PREFIX, tripsOnly=TRIPS_ONLY)
 
 
 
