@@ -77,7 +77,7 @@ class CycletracksData(object):
             elif line.strip().split(',')[-1] == 'recorded':
                 inPoints = True
                 print "reading points"
-            elif line.strip().split(',')[-1] == 'purpose':
+            elif line.strip().split(',')[-1] == 'notes':
                 inTrips = True
                 print "reading trips"
             if lines % 100000 == 0:
@@ -127,7 +127,7 @@ class CycletracksData(object):
 
         
     def readTrip(self, csvLine_trip):
-        (trip_id,user_id, age, gender, homeZIP, schoolZIP, workZIP, cycling_freq, purpose) = csvLine_trip.strip().split(",")
+        (trip_id,user_id, age, gender, homeZIP, schoolZIP, workZIP, cycling_freq, purpose, notes) = csvLine_trip.strip().split(",", 9)
         trip_id = int(trip_id)
         user_id = int(user_id)
         
@@ -175,6 +175,7 @@ class CycletracksData(object):
         t.user    = u
         t.user_id = user_id
         t.purpose = purpose
+        t.notes = notes
        
         # add trip to user
         u.trips.append(t)
@@ -209,13 +210,19 @@ class CycletracksData(object):
         print "finished writing to %s" % (users_out)
         
         for t in self.trips:
-            f_t.write(t.csvLine())
+            try:
+                f_t.write(t.csvLine())
+            except:
+                print "trip %d seems to be a problem." % (t.trip_id)
         f_t.close()
         print "finished writing to %s" % (trips_out)
         
         if not tripsOnly:
             for p in self.points:
-                f_p.write(p.csvLine())
+                try:
+                    f_p.write(p.csvLine())
+                except:
+                    print "point %d seems to be a problem." % (p.pointNum)
             f_p.close()
             print "finished writing to %s" % (points_out)
         else:
@@ -274,6 +281,7 @@ class Trip(object):
         self.purpose = None
         self.points_by_id = {}
         self.points       = []
+        self.notes = None
         
         #TRIP ATTRIBUTES
         self.numPoints     = 0
@@ -295,11 +303,11 @@ class Trip(object):
         self.schoolZIP    = 0
         self.workZIP      = 0
         
-    csv_outfile_fields = ["trip_id", "user_id", "purpose", "numPoints", "gender", "age", "cycling_freq", "startDate", "startHour"]
+    csv_outfile_fields = ["trip_id", "user_id", "purpose", "numPoints", "gender", "age", "cycling_freq", "startDate", "startHour", "notes"]
         
     def __repr__(self):
         self.updateAttributes()
-        return "%12s: %12d\n  %10s: %12d\n  %10s: %12s\n  %10s: %12d\n" % ("trip_id",self.trip_id, "user_id",self.user_id, "purpose", self.purpose, "points", self.numPoints)
+        return "%12s: %12d\n  %10s: %12d\n  %10s: %12s\n  %10s: %12d\n  %10s: %12s\n" % ("trip_id",self.trip_id, "user_id",self.user_id, "purpose", self.purpose, "points", self.numPoints, "notes", self.notes)
 
     def updateAttributes(self):
         self.user_id      = self.user.user_id
